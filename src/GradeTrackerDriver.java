@@ -19,14 +19,10 @@ public class GradeTrackerDriver {
 					subMenuSelection = Utility.getInt( "Please make a selection: " );
 					switch(subMenuSelection){
 						case 1:
-							addCourse( Utility.getString(
-								"What is the name of the course? " ),
-								Utility.getString( 
-								"What department is the course in?" ),
-								Utility.getString(
-								"What is the course number?" ) );
+							addCourse();
 							break;
 						case 2:
+							editCourse();							
 							break;
 						case 3:
 							displayCourses();
@@ -175,17 +171,28 @@ public static void displayCourses(){
 public static int selectCourse(){
 	int courseElement = registeredCourses.size();
 	displayCourses();
-	courseElement = Utility.getInt(
-			"Please Type the number of the course you would like to select. ") ;
+	courseElement = Utility.getInt("Please Type the number of the course you would like to select. ") ;
 	if (courseElement < 1 || courseElement > registeredCourses.size() ){
 		System.out.println("You have made an incorrect selection please try again");
 		courseElement = selectCourse();
 	}
 	return courseElement - 1;
 }
-public static void addCourse(String courseName,String courseDepartment, String courseNumber){
+public static void addCourse(){
+	String courseName = Utility.getString("What would you like to name the course?");
+	String courseDepartment = Utility.getString("What department is the course in?");
+	String courseNumber = Utility.getString("What is the course number?");
 	Course placeHolderCourse = new Course(courseName , courseDepartment , courseNumber);
 	registeredCourses.add( placeHolderCourse );
+}
+public static void editCourse(){
+	int element = selectCourse();
+	String courseName = Utility.getString("What would you like to name the course?");
+	String courseDepartment = Utility.getString("What department is the course in?");
+	String courseNumber = Utility.getString("What is the course number?");
+	registeredCourses.get(element).setCourseName(courseName);
+	registeredCourses.get(element).setCourseDepartment(courseDepartment);
+	registeredCourses.get(element).setCourseNumber(courseNumber);
 }
 public static int getElement(String courseName){
 	int element = registeredCourses.size();
