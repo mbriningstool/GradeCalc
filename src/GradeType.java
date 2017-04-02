@@ -10,7 +10,7 @@ public class GradeType {
 	public GradeType(String typeName, float gradeWeight){
 		this.typeName = typeName;
 		while(gradeWeight > 100 || gradeWeight <= 0){
-			System.out.println("The grade weight must be a number greater than 0 and less than 100. ");
+			System.out.println("The grade weight must be greater than 0 and less than 100. ");
 			gradeWeight = Utility.getInt("Please try again: ");
 		}
 		this.gradeWeight = gradeWeight /100;
@@ -54,7 +54,8 @@ public class GradeType {
 	public int selectGrade(){
 		int element = individualGrades.size();
 		displayGrades();
-		element = Utility.getInt( "Please Type the number of the course you would like to select. " )  ;
+		element = Utility.
+				getInt( "Please Type the number of the course you would like to select. " )  ;
 		if ( element < 1 || element > individualGrades.size() ){
 			System.out.println( "You have made an incorrect selection please try again" );
 			element = selectGrade();

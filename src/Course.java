@@ -67,12 +67,15 @@ public class Course {
 		this.courseDepartment = courseDepartment;
 	}
 	public String toString(){
-		return this.getCourseNumber() + " " + this.getCourseDepartment() + " " + this.getCourseName() + " ";
+		return this.getCourseNumber() + " " + 
+				this.getCourseDepartment() + " " + 
+				this.getCourseName() + " ";
 	}
 	public int selectGradeType(){
 		int gradeTypeElement = gradingPolicy.size();
 		displayGradingPolicy();
-		gradeTypeElement = Utility.getInt( "Please Type the number of the course you would like to select. " )  ;
+		gradeTypeElement = Utility.
+				getInt( "Please Type the number of the course you would like to select. " )  ;
 		if ( gradeTypeElement < 1 || gradeTypeElement > gradingPolicy.size() ){
 			System.out.println( "You have made an incorrect selection please try again" );
 			gradeTypeElement = selectGradeType();

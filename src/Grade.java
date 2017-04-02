@@ -10,10 +10,12 @@ public class Grade {
 		totalPoints = total;
 		receivedPoints = received;
 		while( totalPoints <= 0){
-			totalPoints = Utility.getInt("Error G14. The total points must be greater than 0 please input another value. ");
+			totalPoints = Utility.
+				getInt("The total points must be greater than 0 please input another value. ");
 		}
 		while( receivedPoints < 0){
-			receivedPoints = Utility.getInt("Error G17. The points received must be 0 or greater please input another value. ");
+			receivedPoints = Utility.
+				getInt("The points received must be 0 or greater please input another value. ");
 		}
 				
 	}

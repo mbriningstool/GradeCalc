@@ -18,7 +18,7 @@ public class Utility {
 				inputError = false;
 			}catch(java.util.InputMismatchException e){
 				input.nextLine();
-				System.out.println( "Error GTD55. Your input was not a number please input a number: ");
+				System.out.println( "Your input was not a number please input a number: ");
 			}finally{
 				input.nextLine();
 			}
@@ -40,7 +40,7 @@ public class Utility {
 				inputError = false;
 			}catch(java.util.InputMismatchException e){
 				input.nextLine();
-				System.out.println( "Error GTD55. Your input was not a number please input a number: ");
+				System.out.println( "Your input was not a number please input a number: ");
 			}finally{
 				input.nextLine();
 			}
@@ -63,7 +63,7 @@ public class Utility {
 				inputError = false;
 			}catch(java.util.InputMismatchException e){
 				input.nextLine();
-				System.out.println( "Error GTD55. Your input was not a number please input a number: ");
+				System.out.println( "Your input was not a number please input a number: ");
 			}finally{
 				input.nextLine();
 			}
@@ -85,7 +85,7 @@ public class Utility {
 				inputError = false;
 			}catch(java.util.InputMismatchException e){
 				input.nextLine();
-				System.out.println( "Error GTD55. Your input was not a number please input a number: ");
+				System.out.println( "Your input was not a number please input a number: ");
 			}finally{
 				input.nextLine();
 			}
@@ -107,7 +107,7 @@ public class Utility {
 				inputError = false;
 			}catch(java.util.InputMismatchException e){
 				input.nextLine();
-				System.out.println( "Error GTD55. Your input was not a number please input a number: ");
+				System.out.println( "Your input was not a number please input a number: ");
 			}finally{
 				input.nextLine();
 			}

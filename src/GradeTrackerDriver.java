@@ -49,16 +49,13 @@ public class GradeTrackerDriver {
 							case 1:
 								element = selectCourse();
 								while( subMenuSelection != 2 ){
-									registeredCourses.get( element ).addGradingPolicy(
-										Utility.getString( 
-										"What is the type of grade you want to add to "
-										+ "the grading policy e.g. Quiz ?" ) ,
-										Utility.getFloat(
-										"What is the weighted percentage of the grade "
-										+ "type? " ) );
-									subMenuSelection = Utility.getInt( "Do you want to "
-											+ "add another grade type? Type 1 (yes) or "
-											+ "2 (no)" );
+									registeredCourses.get( element ).addGradingPolicy( Utility.
+										getString( "What is the type of grade you want to add to "
+										+ "the grading policy e.g. Quiz ?" ) , Utility.getFloat(
+										"What is the weighted percentage of the grade type? " ) );
+									
+									subMenuSelection = Utility.getInt( "Do you want to add another"
+											+ " grade type? Type 1 (yes) or 2 (no)" );
 								}
 								break;
 							case 2:
@@ -85,8 +82,7 @@ public class GradeTrackerDriver {
 							case 1:
 								element = selectCourse();
 								registeredCourses.get( element ).
-									addGradeToGradeingPolicy(registeredCourses.
-									get( element ).
+									addGradeToGradeingPolicy(registeredCourses.get( element ).
 									selectGradeType() );
 								break;
 							case 2:
@@ -94,8 +90,7 @@ public class GradeTrackerDriver {
 							case 3:
 								element = selectCourse();
 								registeredCourses.get( element).
-									displayGradesOfAGradeType( registeredCourses.
-									get( element ).
+									displayGradesOfAGradeType( registeredCourses.get( element ).
 									selectGradeType() );
 								break;
 							case 4:
@@ -120,7 +115,7 @@ public class GradeTrackerDriver {
 							case 2:
 								break;
 							case 3:
-								for(int i = 0; i < registeredCourses.size(); i ++){
+								for(int i = 0 ; i < registeredCourses.size() ; i ++ ){
 									registeredCourses.get(i).displayCourseGrade();
 								}
 								break;
@@ -180,7 +175,8 @@ public static void displayCourses(){
 public static int selectCourse(){
 	int courseElement = registeredCourses.size();
 	displayCourses();
-	courseElement = Utility.getInt("Please Type the number of the course you would like to select. ") ;
+	courseElement = Utility.getInt(
+			"Please Type the number of the course you would like to select. ") ;
 	if (courseElement < 1 || courseElement > registeredCourses.size() ){
 		System.out.println("You have made an incorrect selection please try again");
 		courseElement = selectCourse();
