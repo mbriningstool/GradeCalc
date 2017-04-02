@@ -7,6 +7,10 @@ public class Course {
 	private float courseGrade;
 	private ArrayList<GradeType> gradingPolicy = new ArrayList<>();
 	
+	public ArrayList<GradeType> getGradingPolicy() {
+		return gradingPolicy;
+	}
+	
 	public void addGradeToGradeingPolicy(int element){
 		gradingPolicy.get(element).addGrade();
 		
@@ -17,6 +21,13 @@ public class Course {
 	public void addGradingPolicy(String typeName, float gradeWeight){
 		GradeType placeHolderGradeType = new GradeType( typeName , gradeWeight );
 		gradingPolicy.add(placeHolderGradeType);
+	}
+	public void editGradingPolicy(){
+		int gradePolicyElement = selectGradeType();
+		String typeName = Utility.getString("What type of grade is this? ");
+		float gradeWeight = Utility.getFloat("What is the weight of the grade? ");
+		gradingPolicy.get(gradePolicyElement).setTypeName(typeName);
+		gradingPolicy.get(gradePolicyElement).setGradeWeight(gradeWeight);
 	}
 	public void displayGradingPolicy(){
 		System.out.println();

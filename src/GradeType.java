@@ -36,7 +36,7 @@ public class GradeType {
 		return gradeWeight;
 	}
 	public void setGradeWeight(float gradeWeight) {
-		this.gradeWeight = gradeWeight;
+		this.gradeWeight = gradeWeight / 100;
 	}
 	public float getSectionGrade() {
 		return sectionGrade;
@@ -50,6 +50,15 @@ public class GradeType {
 		float received = Utility.getFloat("How many points did you receive for the grade? ");
 		Grade tempGrade = new Grade(name ,total ,received );
 		individualGrades.add(tempGrade);
+	}
+	public void editGrade(){
+		int element = selectGrade();
+		String name = Utility.getString("What is the name of this grade?");
+		float total = Utility.getFloat("What is the maximum number of points for the grade? ");
+		float received = Utility.getFloat("How many points did you receive for the grade? ");
+		individualGrades.get(element).setGradeName(name);
+		individualGrades.get(element).setTotalPoints(total);
+		individualGrades.get(element).setReceivedPoints(received);
 	}
 	public int selectGrade(){
 		int element = individualGrades.size();

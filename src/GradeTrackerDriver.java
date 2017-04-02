@@ -55,6 +55,7 @@ public class GradeTrackerDriver {
 								}
 								break;
 							case 2:
+								editGradePolicy();
 								break;
 							case 3:
 								element = selectCourse();;
@@ -82,6 +83,7 @@ public class GradeTrackerDriver {
 									selectGradeType() );
 								break;
 							case 2:
+								editGrade();
 								break;
 							case 3:
 								element = selectCourse();
@@ -193,6 +195,16 @@ public static void editCourse(){
 	registeredCourses.get(element).setCourseName(courseName);
 	registeredCourses.get(element).setCourseDepartment(courseDepartment);
 	registeredCourses.get(element).setCourseNumber(courseNumber);
+}
+public static void editGradePolicy(){
+	int courseElement = selectCourse();
+	registeredCourses.get(courseElement).editGradingPolicy();
+	
+}
+public static void editGrade(){
+	int courseElement = selectCourse();
+	int gradePolicyElement = registeredCourses.get(courseElement).selectGradeType();
+	registeredCourses.get(courseElement).getGradingPolicy().get(gradePolicyElement).editGrade();
 }
 public static int getElement(String courseName){
 	int element = registeredCourses.size();
