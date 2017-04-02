@@ -162,18 +162,14 @@ public class GradeTrackerDriver {
 		System.out.println();
 		System.out.println("These are the current courses that have been added");
 		for (int i =0; i < registeredCourses.size(); i++){
-			System.out.print(registeredCourses.get(i));
+			System.out.print( ( i + 1 ) + ". " + registeredCourses.get(i).toString() );
 			System.out.println();
 		}
 		System.out.println();
 	}
 	public static int selectCourse(){
 		int courseElement = registeredCourses.size();
-		System.out.println();
-		System.out.println( "These are the current courses that have been added" );
-		for(int i = 0 ; i < registeredCourses.size() ; i ++ ){
-			System.out.println( (i+1) + ". " + registeredCourses.get(i).getCourseName());
-		}
+		displayCourses();
 		courseElement = Utility.getInt("Please Type the number of the course you would like to select. ") ;
 		if (courseElement < 1 || courseElement > registeredCourses.size() ){
 			System.out.println("You have made an incorrect selection please try again");

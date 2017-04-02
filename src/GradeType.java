@@ -44,9 +44,6 @@ public class GradeType {
 	public void setSectionGrade(float sectionGrade) {
 		this.sectionGrade = sectionGrade;
 	}
-	public ArrayList<Grade> getIndividualGrades() {
-		return individualGrades;
-	}
 	public void addGrade() {
 		String name =  new String(typeName + " " + (individualGrades.size()+1) );
 		float total = Utility.getFloat("What is the maximum number of points for the grade? ");
@@ -54,12 +51,21 @@ public class GradeType {
 		Grade tempGrade = new Grade(name ,total ,received );
 		individualGrades.add(tempGrade);
 	}
-	
+	public int selectGrade(){
+		int element = individualGrades.size();
+		displayGrades();
+		element = Utility.getInt( "Please Type the number of the course you would like to select. " )  ;
+		if ( element < 1 || element > individualGrades.size() ){
+			System.out.println( "You have made an incorrect selection please try again" );
+			element = selectGrade();
+		}
+		return element - 1;
+	}
 	public void displayGrades(){
 		System.out.println();
 		System.out.println("Below are your current " + typeName + " grades.");
 		for (int i =0; i < individualGrades.size(); i ++){
-			System.out.println(individualGrades.get(i));
+			System.out.println( ( i + 1 )+". "+ individualGrades.get(i).toString() );
 		}
 		System.out.println();
 	}
