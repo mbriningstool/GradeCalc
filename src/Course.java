@@ -20,8 +20,9 @@ public class Course {
 	}
 	public void displayGradingPolicy(){
 		System.out.println();
+		System.out.println( "These are the current courses that have been added" );
 		for(int i = 0 ; i < gradingPolicy.size() ; i ++ ){
-			System.out.print(gradingPolicy.get(i) );
+			System.out.println( (i+1) +". "+ gradingPolicy.get(i).toString() );
 			System.out.println();
 		}
 	}
@@ -70,11 +71,7 @@ public class Course {
 	}
 	public int selectGradeType(){
 		int gradeTypeElement = gradingPolicy.size();
-		System.out.println();
-		System.out.println( "These are the current courses that have been added" );
-		for( int i = 0 ; i < gradingPolicy.size() ; i ++ ){
-			System.out.println( ( i + 1 ) + ". " + gradingPolicy.get( i ).getTypeName() );
-		}
+		displayGradingPolicy();
 		gradeTypeElement = Utility.getInt( "Please Type the number of the course you would like to select. " )  ;
 		if ( gradeTypeElement < 1 || gradeTypeElement > gradingPolicy.size() ){
 			System.out.println( "You have made an incorrect selection please try again" );
