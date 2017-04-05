@@ -22,13 +22,6 @@ public class Course {
 		GradeType placeHolderGradeType = new GradeType( typeName , gradeWeight );
 		gradingPolicy.add(placeHolderGradeType);
 	}
-	public void editGradingPolicy(){
-		int gradePolicyElement = selectGradeType();
-		String typeName = Utility.getString("What type of grade is this? ");
-		float gradeWeight = Utility.getFloat("What is the weight of the grade? ");
-		gradingPolicy.get(gradePolicyElement).setTypeName(typeName);
-		gradingPolicy.get(gradePolicyElement).setGradeWeight(gradeWeight);
-	}
 	public void displayGradingPolicy(){
 		System.out.println();
 		System.out.println( "These are the current courses that have been added" );

@@ -7,6 +7,12 @@ public class GradeType {
 	private float sectionGrade;
 	private ArrayList<Grade> individualGrades = new ArrayList<>();
 	
+	public ArrayList<Grade> getIndividualGrades() {
+		return individualGrades;
+	}
+	public void setIndividualGrades(ArrayList<Grade> individualGrades) {
+		this.individualGrades = individualGrades;
+	}
 	public GradeType(String typeName, float gradeWeight){
 		this.typeName = typeName;
 		while(gradeWeight > 100 || gradeWeight <= 0){
@@ -51,15 +57,7 @@ public class GradeType {
 		Grade tempGrade = new Grade(name ,total ,received );
 		individualGrades.add(tempGrade);
 	}
-	public void editGrade(){
-		int element = selectGrade();
-		String name = Utility.getString("What is the name of this grade?");
-		float total = Utility.getFloat("What is the maximum number of points for the grade? ");
-		float received = Utility.getFloat("How many points did you receive for the grade? ");
-		individualGrades.get(element).setGradeName(name);
-		individualGrades.get(element).setTotalPoints(total);
-		individualGrades.get(element).setReceivedPoints(received);
-	}
+	
 	public int selectGrade(){
 		int element = individualGrades.size();
 		displayGrades();
