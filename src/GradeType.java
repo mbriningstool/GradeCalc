@@ -5,6 +5,16 @@ public class GradeType {
 	private String typeName;
 	private float gradeWeight;
 	private float sectionGrade;
+	private float totalPossiblePoints;
+	private float totalReceivedPoints;
+	
+	public float getTotalPossiblePoints() {
+		return totalPossiblePoints;
+	}
+	public float getTotalReceivedPoints() {
+		return totalReceivedPoints;
+	}
+	
 	private ArrayList<Grade> individualGrades = new ArrayList<>();
 	
 	public ArrayList<Grade> getIndividualGrades() {
@@ -24,16 +34,21 @@ public class GradeType {
 	public String getTypeName() {
 		return typeName;
 	}
-	public  void totalOfGrades(){
+	public  void calculateSectionGrade(){
+		calculateSectionPoints();
 		float grade = 0;
+		grade = this.totalReceivedPoints / totalPossiblePoints;
+		this.sectionGrade = this.gradeWeight * grade; 
+	}
+	public void calculateSectionPoints(){
 		float received = 0;
 		float total = 0;
 		for(int i = 0 ; i < individualGrades.size() ; i ++){
 			received += individualGrades.get(i).getReceivedPoints();
 			total += individualGrades.get(i).getTotalPoints();
 		}
-		grade = received / total;
-		this.sectionGrade = this.gradeWeight * grade; 
+		this.totalPossiblePoints = total;
+		this.totalReceivedPoints = received;
 	}
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;

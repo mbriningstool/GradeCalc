@@ -43,7 +43,6 @@ public class GradeTrackerDriver {
 								"Please make a selection: " );
 						switch(subMenuSelection){
 							case 1:
-								element = selectCourse();
 								while( subMenuSelection != 2 ){
 									addGradeType();
 									
@@ -56,7 +55,7 @@ public class GradeTrackerDriver {
 								editGradePolicy();
 								break;
 							case 3:
-								element = selectCourse();;
+								element = selectCourse();
 								registeredCourses.get( element ).displayGradingPolicy();
 								break;
 							case 4:
@@ -167,6 +166,9 @@ public static void displayCourses(){
 }
 public static int selectCourse(){
 	int courseElement = registeredCourses.size();
+	if( courseElement == 0 ){
+		return -1;
+	}
 	displayCourses();
 	courseElement = Utility.
 			getInt( "Please Type the number of the course you would like to select. " );
@@ -181,16 +183,25 @@ public static void addCourse(){
 	String courseName = Utility.getString( "What would you like to name the course?" );
 	String courseDepartment = Utility.getString( "What department is the course in?" );
 	String courseNumber = Utility.getString( "What is the course number?" );
-	
+		
 	Course placeHolderCourse = new Course( courseName , courseDepartment , courseNumber );
+		if( (Utility.
+			getInt( "Does the course use a weighted grading system? 1 (yes) 2 (no)" ) )
+			== 2){
+			placeHolderCourse.setGradedByWeight(false);
+		}
+		
 	registeredCourses.add( placeHolderCourse );
 }
 public static void addGradeType(){
 	int courseElement = selectCourse();
 		
 	String typeName = Utility.getString( "What type of grade is this? " );
-	float gradeWeight = Utility.getFloat( "What is the weight of the grade? " );
-	
+	float gradeWeight = 1;
+	if( registeredCourses.get( courseElement ).getIsGradedByWeight() == true ){
+		gradeWeight = Utility.getFloat( "What is the weight of the grade? " );
+	}
+		
 	GradeType placeHolderGradeType = new GradeType( typeName , gradeWeight );
 	registeredCourses.get( courseElement ).getGradingPolicy().
 		add( placeHolderGradeType );
@@ -205,7 +216,7 @@ public static void addGrade(){
 			get( courseElement ).getGradingPolicy().get(policyElement).
 			getIndividualGrades().size();
 	
-	String name = typeName + " " + (individualGradeSize + 1);
+	String name = typeName + " " + ( individualGradeSize + 1);
 	float total = Utility.
 			getFloat( "What is the maximum number of points for the grade? " );
 	float received = Utility.
@@ -216,19 +227,33 @@ public static void addGrade(){
 		get(policyElement).getIndividualGrades().add( tempGrade );
 }
 public static void editCourse(){
-	int element = selectCourse();
+	int courseElement = selectCourse();
+	if ( courseElement == - 1){
+		System.out.println( "Before you can edit a course you must add a course." );
+		return;
+	}
 	
 	String courseName = Utility.getString( "What would you like to name the course?" );
 	String courseDepartment = Utility.getString( "What department is the course in?" );
 	String courseNumber = Utility.getString( "What is the course number?" );
 	
-	registeredCourses.get(element).setCourseName( courseName );
-	registeredCourses.get(element).setCourseDepartment( courseDepartment );
-	registeredCourses.get(element).setCourseNumber( courseNumber );
+	registeredCourses.get( courseElement ).setCourseName( courseName );
+	registeredCourses.get( courseElement ).setCourseDepartment( courseDepartment );
+	registeredCourses.get( courseElement ).setCourseNumber( courseNumber );
 }
 public static void editGradePolicy(){
 	int courseElement = selectCourse();
+		if ( courseElement == - 1){
+			System.out.println(
+					"Before you can edit a grade policy you must add a course." );
+			return;
+		}
 	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+		if ( policyElement == - 1){
+			System.out.println(
+					"Before you can edit a grade policy you must add a grade policy." );
+			return;
+		}
 	
 	String typeName = Utility.getString( "What type of grade is this? " );
 	float gradeWeight = Utility.getFloat( "What is the weight of the grade? " );
@@ -242,9 +267,21 @@ public static void editGradePolicy(){
 }
 public static void editGrade(){
 	int courseElement = selectCourse();
+		if ( courseElement == - 1){
+			System.out.println( "Before you can edit a grade you must add a course." );
+			return;
+		}
 	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+		if ( policyElement == - 1){
+			System.out.println( "Before you can edit a grade you must add a grade policy." );
+			return;
+		}
 	int gradeElement = registeredCourses.get( courseElement ).
 			getGradingPolicy().get( policyElement ).selectGrade();
+		if ( gradeElement == - 1){
+			System.out.println( "Before you can edit a grade you must add a grade." );
+			return;
+		}
 	
 	String name = Utility.getString( "What is the name of this grade?" );
 	float total = Utility.
@@ -262,16 +299,5 @@ public static void editGrade(){
 		get( policyElement ).getIndividualGrades().get( gradeElement ).
 			setReceivedPoints( received );
 }
-public static int getElement(String courseName){
-	int element = registeredCourses.size();
-	for (int i = 0 ; i < registeredCourses.size() ; i++ ){
-		if(Objects.equals( courseName , registeredCourses.get( i ).getCourseName() ) ){
-			element = i ;
-		}
-	}
-	if (element == registeredCourses.size() ){
-		element = -1;
-	}
-	return element;
-}
+
 }

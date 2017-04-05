@@ -5,6 +5,15 @@ public class Course {
 	private String courseDepartment;
 	private String courseNumber;
 	private float courseGrade;
+	private boolean isGradedByWeight = true;
+	
+	public boolean getIsGradedByWeight() {
+		return isGradedByWeight;
+	}
+
+	public void setGradedByWeight(boolean isGradedByWeight) {
+		this.isGradedByWeight = isGradedByWeight;
+	}
 	private ArrayList<GradeType> gradingPolicy = new ArrayList<>();
 	
 	public ArrayList<GradeType> getGradingPolicy() {
@@ -37,8 +46,21 @@ public class Course {
 	}
 	public void totalGradeTypes(){
 		float subTotal = 0;
+		float received = 0;
+		float total = 0;
+			//calculating points based grading
+			if ( this.isGradedByWeight == false ){
+				for(int i = 0 ; i < gradingPolicy.size() ; i ++){
+					gradingPolicy.get(i).calculateSectionPoints();
+					received += gradingPolicy.get(i).getTotalReceivedPoints();
+					total += gradingPolicy.get(i).getTotalPossiblePoints();
+				}
+				this.courseGrade = received / total;
+				return;
+			}
+		//calculating grade weight based grading	
 		for(int i = 0 ; i < gradingPolicy.size() ; i ++){
-			gradingPolicy.get(i).totalOfGrades();
+			gradingPolicy.get(i).calculateSectionGrade();
 			subTotal += gradingPolicy.get(i).getSectionGrade();
 		}
 		this.courseGrade = subTotal;
