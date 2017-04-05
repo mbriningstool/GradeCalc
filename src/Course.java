@@ -10,23 +10,16 @@ public class Course {
 	public ArrayList<GradeType> getGradingPolicy() {
 		return gradingPolicy;
 	}
-	
-	public void addGradeToGradeingPolicy(int element){
-		gradingPolicy.get(element).addGrade();
 		
-	}
 	public void displayGradesOfAGradeType(int element){
 		gradingPolicy.get(element).displayGrades();
 	}
-	public void addGradingPolicy(String typeName, float gradeWeight){
-		GradeType placeHolderGradeType = new GradeType( typeName , gradeWeight );
-		gradingPolicy.add(placeHolderGradeType);
-	}
+	
 	public void displayGradingPolicy(){
 		System.out.println();
 		System.out.println( "These are the current courses that have been added" );
 		for(int i = 0 ; i < gradingPolicy.size() ; i ++ ){
-			System.out.println( (i+1) +". "+ gradingPolicy.get(i).toString() );
+			System.out.println( (i+1) +". "+ gradingPolicy.get( i ).toString() );
 			System.out.println();
 		}
 	}

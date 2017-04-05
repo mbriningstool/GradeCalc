@@ -50,14 +50,7 @@ public class GradeType {
 	public void setSectionGrade(float sectionGrade) {
 		this.sectionGrade = sectionGrade;
 	}
-	public void addGrade() {
-		String name =  new String(typeName + " " + (individualGrades.size()+1) );
-		float total = Utility.getFloat("What is the maximum number of points for the grade? ");
-		float received = Utility.getFloat("How many points did you receive for the grade? ");
-		Grade tempGrade = new Grade(name ,total ,received );
-		individualGrades.add(tempGrade);
-	}
-	
+		
 	public int selectGrade(){
 		int element = individualGrades.size();
 		displayGrades();
