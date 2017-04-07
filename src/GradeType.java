@@ -1,22 +1,51 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class GradeType {
+public class GradeType implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private String typeName;
 	private float gradeWeight;
 	private float sectionGrade;
 	private float totalPossiblePoints;
 	private float totalReceivedPoints;
+	private ArrayList<Grade> individualGrades = new ArrayList<>();
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(gradeWeight);
+		result = prime * result + Float.floatToIntBits(totalPossiblePoints);
+		result = prime * result + ((typeName == null) ? 0 : typeName.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GradeType other = (GradeType) obj;
+		if (Float.floatToIntBits(gradeWeight) != Float.floatToIntBits(other.gradeWeight))
+			return false;
+		if (Float.floatToIntBits(totalPossiblePoints) != Float.floatToIntBits(other.totalPossiblePoints))
+			return false;
+		if (typeName == null) {
+			if (other.typeName != null)
+				return false;
+		} else if (!typeName.equals(other.typeName))
+			return false;
+		return true;
+	}
 	public float getTotalPossiblePoints() {
 		return totalPossiblePoints;
 	}
 	public float getTotalReceivedPoints() {
 		return totalReceivedPoints;
 	}
-	
-	private ArrayList<Grade> individualGrades = new ArrayList<>();
-	
 	public ArrayList<Grade> getIndividualGrades() {
 		return individualGrades;
 	}
@@ -65,7 +94,6 @@ public class GradeType {
 	public void setSectionGrade(float sectionGrade) {
 		this.sectionGrade = sectionGrade;
 	}
-		
 	public int selectGrade(){
 		int element = individualGrades.size();
 		displayGrades();
@@ -88,5 +116,4 @@ public class GradeType {
 	public String toString(){
 		return this.getTypeName() + " " + this.getGradeWeight() *100 +"%";
 	}
-		
 }

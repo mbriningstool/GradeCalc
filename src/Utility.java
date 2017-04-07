@@ -1,8 +1,51 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 public class Utility {
 	private static Scanner input = new Scanner(System.in);
-	
+			
+	public static void writeToFile(File output,String givenString){
+		PrintWriter out = null;
+		FileWriter fw = null;
+		try{
+			fw = new FileWriter(output,true);
+			out = new PrintWriter(fw);
+			out.println(givenString);
+		}catch(IOException e){
+			System.out.println("The file was not found");
+		}finally{
+			out.close();
+			
+		}
+	}
+	 public static File getFileSaveLocation(){
+		 File output = null;
+		 int returnVal = 0;
+		 JFrame parentFrame = new JFrame();
+		 parentFrame.setAlwaysOnTop(true);
+		 JFileChooser chooser = new JFileChooser();
+		 try{
+			 returnVal = chooser.showSaveDialog(parentFrame );
+			 if(returnVal == JFileChooser.APPROVE_OPTION){
+				output = chooser.getSelectedFile();
+			}
+		 }catch(NullPointerException e){
+			 System.out.println(
+					 "Your File was not saved. "
+					 + "Because the save dialog was closed prior to saving" );
+		 }
+		 	if(output == null){
+		 		System.out.println( "Please try saving the file again." );
+		 		getFileSaveLocation();
+		 	}
+		return output;
+	 }
 	public static int getInt(String question){
 		int number = 0;
 		System.out.print( question );
@@ -22,6 +65,33 @@ public class Utility {
 			}finally{
 				input.nextLine();
 			}
+		}
+		return number;
+	}
+	public static int getInt( String question ,int min ,int max ){
+		int number = 0;
+		System.out.print( question );
+		boolean inputError = true;
+			/////////////////////////////////////////////
+			//Try catch is used here to prevent program crashes
+			//if the user inputs values other than integers in for
+			//the requested number.
+			/////////////////////////////////////////////
+		while( inputError ){
+			try{
+				number = input.nextInt();
+				inputError = false;
+			}catch(java.util.InputMismatchException e){
+				input.nextLine();
+				System.out.println( "Your input was not a number please input a number: ");
+			}finally{
+				input.nextLine();
+			}
+		}
+		if (number < min || number > max){
+			System.out.println("The number must be between " + min + " and " + max + 
+					". Please try again");
+			getInt(question,min,max);
 		}
 		return number;
 	}
@@ -63,60 +133,17 @@ public class Utility {
 				inputError = false;
 			}catch(java.util.InputMismatchException e){
 				input.nextLine();
-				System.out.println( "Your input was not a number please input a number: ");
+				System.out.println( " Your input was not a number please input a number: ");
 			}finally{
 				input.nextLine();
 			}
 		}
 		return number;
 	}
-	public static short getShort(String question){
-		short number = 0;
-		System.out.print( question );
-		boolean inputError = true;
-			/////////////////////////////////////////////
-			//Try catch is used here to prevent program crashes
-			//if the user inputs values other than integers in for
-			//the requested number.
-			/////////////////////////////////////////////
-		while( inputError ){
-			try{
-				number = input.nextShort();
-				inputError = false;
-			}catch(java.util.InputMismatchException e){
-				input.nextLine();
-				System.out.println( "Your input was not a number please input a number: ");
-			}finally{
-				input.nextLine();
-			}
-		}
-		return number;	
-	}
-	public static long getLong(String question){
-		long number = 0;
-		System.out.print( question );
-		boolean inputError = true;
-			/////////////////////////////////////////////
-			//Try catch is used here to prevent program crashes
-			//if the user inputs values other than integers in for
-			//the requested number.
-			/////////////////////////////////////////////
-		while( inputError ){
-			try{
-				number = input.nextLong();
-				inputError = false;
-			}catch(java.util.InputMismatchException e){
-				input.nextLine();
-				System.out.println( "Your input was not a number please input a number: ");
-			}finally{
-				input.nextLine();
-			}
-		}
-		return number;	
-	}
 	public static String getString(String question){
 		System.out.println( question );
 		String inputString = input.nextLine();
+		
 		return inputString;
 	}
 	

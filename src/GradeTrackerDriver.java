@@ -6,17 +6,17 @@ public class GradeTrackerDriver {
 		int mainMenuSelection = 0;
 		int subMenuSelection = 0;
 		int element = 0;
-		while( mainMenuSelection != 5 ){
+		while( mainMenuSelection != 7 ){
 			displayMainMenu();
 			subMenuSelection = 0;
-			mainMenuSelection = Utility.getInt( "Please make a selection: " );
+			mainMenuSelection = Utility.getInt( "Please make a selection: ", 1 , 7 );
 			/*Start of main menu*/
 			switch( mainMenuSelection ){
 				case 1:
 				/*Start of Course menu*/
 				while( subMenuSelection != 4 ){
 					displayCourseMenu();
-					subMenuSelection = Utility.getInt( "Please make a selection: " );
+					subMenuSelection = Utility.getInt( "Please make a selection: ", 1 , 4 );
 					switch( subMenuSelection ){
 						case 1:
 							addCourse();
@@ -39,8 +39,8 @@ public class GradeTrackerDriver {
 					/*Start of Grade Policy menu*/
 					while( subMenuSelection != 4 ){
 						displayGradePolicyMenu();
-						subMenuSelection = Utility.getInt( 
-								"Please make a selection: " );
+						subMenuSelection = Utility.getInt(
+								"Please make a selection: ", 1 , 4 );
 						switch(subMenuSelection){
 							case 1:
 								while( subMenuSelection != 2 ){
@@ -48,7 +48,8 @@ public class GradeTrackerDriver {
 									
 									subMenuSelection = Utility.
 											getInt( "Do you want to add another"
-											+ " grade type? Type 1 (yes) or 2 (no)" );
+											+ " grade type? Type 1 (yes) or 2 "
+											+ "(no)" , 1 , 2 );
 								}
 								break;
 							case 2:
@@ -71,7 +72,7 @@ public class GradeTrackerDriver {
 					while( subMenuSelection != 4 ){
 						displayGradeMenu();
 						subMenuSelection = Utility.getInt(
-								"Please make a selection: " );
+								"Please make a selection: ", 1 , 4 );
 						switch( subMenuSelection ){
 							case 1:
 								addGrade();
@@ -98,7 +99,8 @@ public class GradeTrackerDriver {
 					/*Start of Course Grade Menu*/
 					while( subMenuSelection != 4 ){
 						displayCourseGradeMenu();
-						subMenuSelection = Utility.getInt("Please make a selection: ");
+						subMenuSelection = Utility.getInt(
+								"Please make a selection: ", 1 , 4 );
 						switch( subMenuSelection ){
 							case 1:
 								element = selectCourse();
@@ -117,6 +119,13 @@ public class GradeTrackerDriver {
 								break;
 						}
 					}
+					/*End of Course Grade Menu*/
+					break;
+				case 5:
+					break;
+				case 6:
+					break;
+				case 7:
 					break;
 				default:
 					break;
@@ -129,7 +138,9 @@ public static void displayMainMenu(){
 	System.out.println( "2. Grading policy menu" );
 	System.out.println( "3. Grade menu" );
 	System.out.println( "4. Display course grades menu" );
-	System.out.println( "5. Exit" );
+	System.out.println( "5. Save" );
+	System.out.println( "6. Load" );
+	System.out.println( "7. Exit" );
 }
 public static void displayGradePolicyMenu(){
 	System.out.println( "1. Add grading policy" );
@@ -158,7 +169,7 @@ public static void displayCourseGradeMenu(){
 public static void displayCourses(){
 	System.out.println();
 	System.out.println( "These are the current courses that have been added" );
-	for ( int i =0; i < registeredCourses.size(); i++ ){
+	for ( int i = 0 ; i < registeredCourses.size() ; i ++ ){
 		System.out.print( ( i + 1 ) + ". " + registeredCourses.get( i ).toString() );
 		System.out.println();
 	}
@@ -273,7 +284,8 @@ public static void editGrade(){
 		}
 	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
 		if ( policyElement == - 1){
-			System.out.println( "Before you can edit a grade you must add a grade policy." );
+			System.out.println( 
+					"Before you can edit a grade you must add a grade policy." );
 			return;
 		}
 	int gradeElement = registeredCourses.get( courseElement ).
