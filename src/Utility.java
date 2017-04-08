@@ -46,6 +46,28 @@ public class Utility {
 		 	}
 		return output;
 	 }
+	 public static File getFileSaveLocation( String fileExtension ){
+		 File output = null;
+		 int returnVal = 0;
+		 JFrame parentFrame = new JFrame();
+		 parentFrame.setAlwaysOnTop(true);
+		 JFileChooser chooser = new JFileChooser();
+		 try{
+			 returnVal = chooser.showSaveDialog(parentFrame );
+			 if(returnVal == JFileChooser.APPROVE_OPTION){
+				output = new File(chooser.getSelectedFile() + fileExtension);
+			}
+		 }catch(NullPointerException e){
+			 System.out.println(
+					 "Your File was not saved. "
+					 + "Because the save dialog was closed prior to saving" );
+		 }
+		 	if(output == null){
+		 		System.out.println( "Please try saving the file again." );
+		 		getFileSaveLocation();
+		 	}
+		return output;
+	 }
 	public static int getInt(String question){
 		int number = 0;
 		System.out.print( question );

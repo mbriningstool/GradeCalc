@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 public class GradeTrackerDriver {	
@@ -6,6 +10,10 @@ public class GradeTrackerDriver {
 		int mainMenuSelection = 0;
 		int subMenuSelection = 0;
 		int element = 0;
+		File input = null;
+		File outputFile = null;
+		
+		
 		while( mainMenuSelection != 7 ){
 			displayMainMenu();
 			subMenuSelection = 0;
@@ -44,8 +52,7 @@ public class GradeTrackerDriver {
 						switch(subMenuSelection){
 							case 1:
 								while( subMenuSelection != 2 ){
-									addGradeType();
-									
+									addGradeType();									
 									subMenuSelection = Utility.
 											getInt( "Do you want to add another"
 											+ " grade type? Type 1 (yes) or 2 "
@@ -109,6 +116,7 @@ public class GradeTrackerDriver {
 							case 2:
 								break;
 							case 3:
+								
 								for(int i = 0 ; i < registeredCourses.size() ; i ++ ){
 									registeredCourses.get( i ).displayCourseGrade();
 								}
@@ -122,6 +130,14 @@ public class GradeTrackerDriver {
 					/*End of Course Grade Menu*/
 					break;
 				case 5:
+					outputFile = Utility.getFileSaveLocation(".dat");
+					try{
+						ObjectOutputStream output = new 
+								ObjectOutputStream( new FileOutputStream( outputFile,true) ) ;
+						output.writeObject(registeredCourses);
+					}catch(IOException e){
+						System.out.println("The file was unable to be saved. ");
+					}
 					break;
 				case 6:
 					break;
@@ -227,7 +243,7 @@ public static void addGrade(){
 			get( courseElement ).getGradingPolicy().get(policyElement).
 			getIndividualGrades().size();
 	
-	String name = typeName + " " + ( individualGradeSize + 1);
+	String name = typeName + " " + ( individualGradeSize + 1 );
 	float total = Utility.
 			getFloat( "What is the maximum number of points for the grade? " );
 	float received = Utility.
