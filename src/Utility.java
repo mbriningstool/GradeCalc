@@ -68,6 +68,29 @@ public class Utility {
 		 	}
 		return output;
 	 }
+	 public static File getFileLoadLocation(){
+		 File input  = null;
+		 int returnVal = 0;
+		 JFrame parentFrame = new JFrame();
+		 parentFrame.setAlwaysOnTop(true);
+		 JFileChooser chooser = new JFileChooser();
+		 try{
+			 returnVal = chooser.showOpenDialog(parentFrame);
+			 	if(returnVal==JFileChooser.APPROVE_OPTION){
+			 		input =chooser.getSelectedFile();
+		 }
+		 }catch(NullPointerException e){
+			 System.out.println(
+					 "YourFilewasnotsaved."
+							 +"Becausethesavedialogwasclosedpriortosaving");
+		 }
+		 	if(input == null){
+		 		System.out.println("Pleasetrysavingthefileagain.");
+		 		getFileLoadLocation();
+		 	}
+		 return input ;
+		 }
+
 	public static int getInt(String question){
 		int number = 0;
 		System.out.print( question );

@@ -1,6 +1,8 @@
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -10,7 +12,7 @@ public class GradeTrackerDriver {
 		int mainMenuSelection = 0;
 		int subMenuSelection = 0;
 		int element = 0;
-		File input = null;
+		File inputFile = null;
 		File outputFile = null;
 		
 		
@@ -114,6 +116,7 @@ public class GradeTrackerDriver {
 								registeredCourses.get( element ).displayCourseGrade();
 								break;
 							case 2:
+								displayCourseGrades();
 								break;
 							case 3:
 								
@@ -140,6 +143,18 @@ public class GradeTrackerDriver {
 					}
 					break;
 				case 6:
+					inputFile = Utility.getFileLoadLocation();
+					try(ObjectInputStream input = new 
+							ObjectInputStream( new FileInputStream( inputFile ) ) ;
+					){
+						registeredCourses = ( ArrayList<Course> )( input.readObject() );
+					}catch(IOException e ){
+						System.out.println("Your file did not load.");
+					}catch(ClassNotFoundException e){
+						System.out.println("The class was not found");
+					}
+
+					
 					break;
 				case 7:
 					break;
@@ -190,6 +205,21 @@ public static void displayCourses(){
 		System.out.println();
 	}
 	System.out.println();
+}
+public static void displayCourseGrades(){
+	int courseElement = selectCourse();
+	int policySize = registeredCourses.get( courseElement ).getGradingPolicy().size();
+	int gradeSize = 0 ;
+	
+	for (int i = 0 ; i < policySize ; i ++){
+		gradeSize = registeredCourses.get( courseElement ).getGradingPolicy().
+				get(i).getIndividualGrades().size();
+		for(int x = 0 ; x < gradeSize ; x++ ){
+			
+			System.out.println(registeredCourses.get( courseElement ).getGradingPolicy().
+					get(i).getIndividualGrades().get(x));
+		}
+	}
 }
 public static int selectCourse(){
 	int courseElement = registeredCourses.size();
