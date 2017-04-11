@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Objects;
 public class GradeTrackerDriver {	
 	static ArrayList<Course> registeredCourses = new ArrayList<>();
 	public static void main(String[] args) {
@@ -134,9 +133,11 @@ public class GradeTrackerDriver {
 					break;
 				case 5:
 					outputFile = Utility.getFileSaveLocation(".dat");
-					try{
+					try(
 						ObjectOutputStream output = new 
-								ObjectOutputStream( new FileOutputStream( outputFile,true) ) ;
+								ObjectOutputStream( new 
+										FileOutputStream( outputFile,true) ) ;
+					){
 						output.writeObject(registeredCourses);
 					}catch(IOException e){
 						System.out.println("The file was unable to be saved. ");
