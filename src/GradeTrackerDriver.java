@@ -178,8 +178,7 @@ public class GradeTrackerDriver {
 								+ "before you can set a default grade type. " );
 						break;
 					}
-					policyElement = registeredCourses.
-							get(courseElement).selectGradeType();
+					policyElement = selectGradeType( courseElement );
 					if ( policyElement == -1 ){
 						System.out.println( "You must add a grade type before"
 								+ " you can select a default grade type." );
@@ -320,12 +319,12 @@ public static void displayGradePolicy( int courseElement){
 }
 public static void displayGradesOfAGradeType(){
 	int courseElement = selectCourse();
-	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+	int policyElement = selectGradeType( courseElement);
 	registeredCourses.get( courseElement ).getGradingPolicy().
 		get( policyElement ).displayGrades();
 }
 public static void displayGradesOfAGradeType( int courseElement ){
-	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+	int policyElement = selectGradeType( courseElement );
 	registeredCourses.get( courseElement ).getGradingPolicy().
 		get( policyElement ).displayGrades();
 }
@@ -364,6 +363,33 @@ public static int selectCourse(){
 	}
 	return courseElement - 1;
 }
+public static int selectGradeType(){
+	int courseElement = selectCourse();
+	int policySize = registeredCourses.
+			get( courseElement ).getGradingPolicy().size();
+	if ( policySize == 0){
+		return - 1;
+	}
+	int gradeTypeElement = policySize;
+	displayGradePolicy();
+	gradeTypeElement = Utility.getInt( "Please Type the number "
+		+ "of the course you would like to select. ", 1 , policySize );
+		
+	return gradeTypeElement - 1;
+}
+public static int selectGradeType( int courseElement ){
+	int policySize = registeredCourses.
+			get( courseElement ).getGradingPolicy().size();
+	if ( policySize == 0){
+		return - 1;
+	}
+	int gradeTypeElement = policySize;
+	displayGradePolicy();
+	gradeTypeElement = Utility.getInt( "Please Type the number "
+		+ "of the course you would like to select. ", 1 , policySize );
+		
+	return gradeTypeElement - 1;
+}
 public static void addCourse(){
 	String courseName = Utility.getString( "What would you like to name the course?" );
 	String courseDepartment = Utility.getString( "What department is the course in?" );
@@ -378,6 +404,7 @@ public static void addCourse(){
 		
 	registeredCourses.add( placeHolderCourse );
 }
+
 public static void addGradeType(){
 	int courseElement = selectCourse();
 		
@@ -408,7 +435,7 @@ public static void addGradeType(int courseElement){
 }
 public static void addGrade(){
 	int courseElement = selectCourse();
-	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+	int policyElement = selectGradeType( courseElement );
 	
 	String typeName = registeredCourses.get( courseElement ).getGradingPolicy().
 			get( policyElement ).getTypeName();
@@ -427,7 +454,7 @@ public static void addGrade(){
 		get(policyElement).getIndividualGrades().add( tempGrade );
 }
 public static void addGrade(int courseElement){
-	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+	int policyElement = selectGradeType( courseElement );
 	
 	String typeName = registeredCourses.get( courseElement ).getGradingPolicy().
 			get( policyElement ).getTypeName();
@@ -487,7 +514,7 @@ public static void editGradePolicy(){
 					"Before you can edit a grade policy you must add a course." );
 			return;
 		}
-	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+	int policyElement = selectGradeType( courseElement );
 	// -1 return from selectGradeType() indicates the list is empty
 		if ( policyElement == - 1 ){
 			System.out.println(
@@ -513,7 +540,7 @@ public static void editGradePolicy( int courseElement ){
 					"Before you can edit a grade policy you must add a course." );
 			return;
 		}
-	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+	int policyElement = selectGradeType( courseElement );
 	// -1 return from selectGradeType() indicates the list is empty
 		if ( policyElement == - 1){
 			System.out.println(
@@ -540,7 +567,7 @@ public static void editGrade(){
 			System.out.println( "Before you can edit a grade you must add a course." );
 			return;
 		}
-	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+	int policyElement = selectGradeType( courseElement );
 	// -1 return from selectGradeType() indicates the list is empty
 		if ( policyElement == - 1){
 			System.out.println( 
@@ -574,7 +601,7 @@ public static void editGrade(){
 			setReceivedPoints( received );
 }
 public static void editGrade(int courseElement){
-	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+	int policyElement = selectGradeType( courseElement );
 	// -1 return from selectGradeType() indicates the list is empty
 		if ( policyElement == - 1){
 			System.out.println( 

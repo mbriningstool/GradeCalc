@@ -114,15 +114,5 @@ public class Course implements Serializable{
 				this.getCourseDepartment() + " " + 
 				this.getCourseName() + " ";
 	}
-	public int selectGradeType(){
-		int gradeTypeElement = gradingPolicy.size();
-		displayGradingPolicy();
-		gradeTypeElement = Utility.
-				getInt( "Please Type the number of the course you would like to select. " )  ;
-		if ( gradeTypeElement < 1 || gradeTypeElement > gradingPolicy.size() ){
-			System.out.println( "You have made an incorrect selection please try again" );
-			gradeTypeElement = selectGradeType();
-		}
-		return gradeTypeElement - 1;
-	}
+	
 }
