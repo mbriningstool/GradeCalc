@@ -2,6 +2,14 @@ import java.util.ArrayList;
 import java.io.Serializable;
 
 public class GradeType implements Serializable{
+	public GradeType(String typeName, float gradeWeight){
+		this.typeName = typeName;
+		while(gradeWeight > 100 || gradeWeight <= 0){
+			System.out.println("The grade weight must be greater than 0 and less than 100. ");
+			gradeWeight = Utility.getInt("Please try again: ");
+		}
+		this.gradeWeight = gradeWeight /100;
+	}
 	
 	private static final long serialVersionUID = 1L;
 	private String typeName;
@@ -52,14 +60,7 @@ public class GradeType implements Serializable{
 	public void setIndividualGrades(ArrayList<Grade> individualGrades) {
 		this.individualGrades = individualGrades;
 	}
-	public GradeType(String typeName, float gradeWeight){
-		this.typeName = typeName;
-		while(gradeWeight > 100 || gradeWeight <= 0){
-			System.out.println("The grade weight must be greater than 0 and less than 100. ");
-			gradeWeight = Utility.getInt("Please try again: ");
-		}
-		this.gradeWeight = gradeWeight /100;
-	}
+	
 	public String getTypeName() {
 		return typeName;
 	}

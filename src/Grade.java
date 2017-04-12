@@ -1,5 +1,19 @@
 import java.io.Serializable;
 public class Grade implements Serializable {
+	public Grade ( String name , float total , float received ){
+		gradeName = name;
+		totalPoints = total;
+		receivedPoints = received;
+		while( totalPoints <= 0 ){
+			totalPoints = Utility.
+				getInt( "The total points must be greater than 0 please input another value. " );
+		}
+		while( receivedPoints < 0 ){
+			receivedPoints = Utility.
+				getInt( "The points received must be 0 or greater please input another value. " );
+		}
+	}
+	
 	private static final long serialVersionUID = 1L;
 	private String gradeName;
 	private float totalPoints;
@@ -33,20 +47,7 @@ public class Grade implements Serializable {
 		return true;
 	}
 		
-	public Grade ( String name , float total , float received ){
-		gradeName = name;
-		totalPoints = total;
-		receivedPoints = received;
-		while( totalPoints <= 0 ){
-			totalPoints = Utility.
-				getInt( "The total points must be greater than 0 please input another value. " );
-		}
-		while( receivedPoints < 0 ){
-			receivedPoints = Utility.
-				getInt( "The points received must be 0 or greater please input another value. " );
-		}
-				
-	}
+	
 
 	public String getGradeName() {
 		return gradeName;

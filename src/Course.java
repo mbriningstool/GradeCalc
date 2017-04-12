@@ -2,7 +2,12 @@ import java.util.ArrayList;
 import java.io.Serializable;
 
 public class Course implements Serializable{
-
+	public Course( String courseName , String courseDepartment , String courseNumber ){
+		this.setCourseName( courseName );
+		this.setCourseDepartment( courseDepartment );
+		this.setCourseNumber( courseNumber );
+	}
+	
 	private static final long serialVersionUID = 1L;
 	private String courseName;
 	private String courseDepartment;
@@ -74,11 +79,7 @@ public class Course implements Serializable{
 		System.out.println( courseName + " " + (courseGrade * 100) + "%" );
 		 
 	}
-	public Course( String courseName , String courseDepartment , String courseNumber ){
-		this.setCourseName( courseName );
-		this.setCourseDepartment( courseDepartment );
-		this.setCourseNumber( courseNumber );
-	}
+	
 	public void totalGradeTypes(){
 		float subTotal = 0;
 		float received = 0;
