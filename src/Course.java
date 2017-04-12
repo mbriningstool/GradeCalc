@@ -61,17 +61,7 @@ public class Course implements Serializable{
 	public ArrayList<GradeType> getGradingPolicy() {
 		return gradingPolicy;
 	}
-	public void displayGradesOfAGradeType(int element){
-		gradingPolicy.get(element).displayGrades();
-	}
-	public void displayGradingPolicy(){
-		System.out.println();
-		System.out.println( "These are the current courses that have been added" );
-		for(int i = 0 ; i < gradingPolicy.size() ; i ++ ){
-			System.out.println( ( i + 1 ) + ". " + gradingPolicy.get( i ).toString() );
-			System.out.println();
-		}
-	}
+	
 	public void displayCourseGrade(){
 		System.out.println();
 		System.out.println();

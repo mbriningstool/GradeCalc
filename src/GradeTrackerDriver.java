@@ -14,8 +14,7 @@ public class GradeTrackerDriver {
 		int policyElement = -1;
 		File inputFile = null;
 		File outputFile = null;
-		
-		
+				
 		while( !exitMainMenu ){
 			
 			/*Start of main menu*/
@@ -51,18 +50,25 @@ public class GradeTrackerDriver {
 						
 						switch( displayGradePolicyMenu() ){
 							case 1:
-								if( courseElement > -1 ){
-									addGradeType(courseElement);
+								if( courseElement == -1 ){
+									addGradeType();
 									break;
 								}
-								addGradeType();	
+								addGradeType(courseElement);									
 								break;
 							case 2:
-								editGradePolicy();
+								if( courseElement == -1 ){
+									editGradePolicy();
+									break;
+								}
+								editGradePolicy(courseElement);
 								break;
 							case 3:
-								courseElement = selectCourse();
-								registeredCourses.get( courseElement ).displayGradingPolicy();
+								if( courseElement == -1 ){
+									displayGradePolicy();
+									break;
+								}
+								displayGradePolicy(courseElement);
 								break;
 							case 4:
 								exitSubMenu = true;
@@ -84,6 +90,10 @@ public class GradeTrackerDriver {
 									addGrade();
 									break;
 								}
+								else if ( policyElement == -1){
+									addGrade( courseElement );
+									break;
+								}
 								addGrade( courseElement , policyElement );
 								break;
 							case 2:
@@ -91,13 +101,22 @@ public class GradeTrackerDriver {
 									editGrade();
 									break;
 								}
+								else if ( policyElement == -1 ){
+									editGrade( courseElement );
+									break;
+								}
 								editGrade( courseElement , policyElement );
 								break;
 							case 3:
-								courseElement = selectCourse();
-								registeredCourses.get( courseElement ).
-									displayGradesOfAGradeType( registeredCourses.
-											get( courseElement ).selectGradeType() );
+								if( courseElement == -1 && policyElement == -1){
+									displayGradesOfAGradeType();
+									break;
+								}
+								else if ( policyElement == -1 ){
+									displayGradesOfAGradeType( courseElement );
+									break;
+								}
+								displayGradesOfAGradeType( courseElement , policyElement );
 								break;
 							case 4:
 								exitSubMenu = true;
@@ -116,8 +135,13 @@ public class GradeTrackerDriver {
 						
 						switch( displayCourseGradeMenu() ){
 							case 1:
-								courseElement = selectCourse();
-								registeredCourses.get( courseElement ).displayCourseGrade();
+								if ( courseElement == -1){
+									registeredCourses.
+										get( selectCourse() ).displayCourseGrade();
+									break;
+								}
+								registeredCourses.
+									get( courseElement ).displayCourseGrade();
 								break;
 							case 2:
 								if( courseElement == -1 ){
@@ -162,6 +186,10 @@ public class GradeTrackerDriver {
 					}
 					break;
 				case 7:
+					courseElement = -1;
+					policyElement = -1;
+					break;
+				case 8:
 					//case 5 allows the user to save course data they have input
 					//into a file for later use
 					outputFile = Utility.getFileSaveLocation( ".dat" );
@@ -175,7 +203,7 @@ public class GradeTrackerDriver {
 						System.out.println( "The file was unable to be saved. " );
 					}
 					break;
-				case 8:
+				case 9:
 					//case 6 allows the user to load course data that has been saved.
 					inputFile = Utility.getFileLoadLocation();
 					try(ObjectInputStream input = new 
@@ -190,7 +218,7 @@ public class GradeTrackerDriver {
 
 					
 					break;
-				case 9:
+				case 10:
 					exitMainMenu = true;
 					break;
 				default:
@@ -207,10 +235,11 @@ public static int displayMainMenu(){
 	System.out.println( "4. Display course grades menu" );
 	System.out.println( "5. Set default course" );
 	System.out.println( "6. Set default grade type" );
-	System.out.println( "7. Save" );
-	System.out.println( "8. Load" );
-	System.out.println( "9. Exit" );
-	return Utility.getInt( "Please make a selection: ", 1 , 9);
+	System.out.println( "7. Reset default course and grade type" );
+	System.out.println( "8. Save" );
+	System.out.println( "9. Load" );
+	System.out.println( "10. Exit" );
+	return Utility.getInt( "Please make a selection: ", 1 , 10 );
 }
 public static int displayGradePolicyMenu(){
 	System.out.println();
@@ -268,13 +297,39 @@ public static void displayCourseGrades(){
 		}
 	}
 }
-public void displayGradesOfAGradeType(){
+public static void displayGradePolicy(){
+	int courseElement = selectCourse();
+	int policySize = registeredCourses.get( courseElement ).getGradingPolicy().size();
+	System.out.println();
+	System.out.println( "These are the current courses that have been added" );
+	for(int i = 0 ; i < policySize ; i ++ ){
+		System.out.println( ( i + 1 ) + ". " + registeredCourses.get( courseElement ).
+				getGradingPolicy().get( i ).toString() );
+		System.out.println();
+	}
+}
+public static void displayGradePolicy( int courseElement){
+	int policySize = registeredCourses.get( courseElement ).getGradingPolicy().size();
+	System.out.println();
+	System.out.println( "These are the current courses that have been added" );
+	for(int i = 0 ; i < policySize ; i ++ ){
+		System.out.println( ( i + 1 ) + ". " + registeredCourses.get( courseElement ).
+				getGradingPolicy().get( i ).toString() );
+		System.out.println();
+	}
+}
+public static void displayGradesOfAGradeType(){
 	int courseElement = selectCourse();
 	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
 	registeredCourses.get( courseElement ).getGradingPolicy().
 		get( policyElement ).displayGrades();
 }
-public void displayGradesOfAGradeType( int courseElement , int policyElement ){
+public static void displayGradesOfAGradeType( int courseElement ){
+	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+	registeredCourses.get( courseElement ).getGradingPolicy().
+		get( policyElement ).displayGrades();
+}
+public static void displayGradesOfAGradeType( int courseElement , int policyElement ){
 	registeredCourses.get( courseElement ).getGradingPolicy().
 		get( policyElement ).displayGrades();
 }
@@ -353,6 +408,25 @@ public static void addGradeType(int courseElement){
 }
 public static void addGrade(){
 	int courseElement = selectCourse();
+	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+	
+	String typeName = registeredCourses.get( courseElement ).getGradingPolicy().
+			get( policyElement ).getTypeName();
+	int individualGradeSize = registeredCourses.
+			get( courseElement ).getGradingPolicy().get( policyElement ).
+			getIndividualGrades().size();
+	
+	String name = typeName + " " + ( individualGradeSize + 1 );
+	float total = Utility.
+			getFloat( "What is the maximum number of points for the grade? " );
+	float received = Utility.
+			getFloat( "How many points did you receive for the grade? " );
+	
+	Grade tempGrade = new Grade( name ,total ,received );
+	registeredCourses.get( courseElement ).getGradingPolicy().
+		get(policyElement).getIndividualGrades().add( tempGrade );
+}
+public static void addGrade(int courseElement){
 	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
 	
 	String typeName = registeredCourses.get( courseElement ).getGradingPolicy().
@@ -466,6 +540,40 @@ public static void editGrade(){
 			System.out.println( "Before you can edit a grade you must add a course." );
 			return;
 		}
+	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
+	// -1 return from selectGradeType() indicates the list is empty
+		if ( policyElement == - 1){
+			System.out.println( 
+					"Before you can edit a grade you must add a grade policy." );
+			return;
+		}
+	int gradeElement = registeredCourses.get( courseElement ).
+			getGradingPolicy().get( policyElement ).selectGrade();
+	// -1 return from selectGrade() indicates the list is empty
+		if ( gradeElement == - 1){
+			System.out.println( "Before you can edit a grade you must add a grade." );
+			return;
+		}
+	
+	String name = Utility.getString( "What is the name of this grade?" );
+	float total = Utility.
+			getFloat( "What is the maximum number of points for the grade? " );
+	float received = Utility.
+			getFloat( "How many points did you receive for the grade? " );
+	
+	//below the attributes of the selected grade are changed to the user supplied
+	//attributes
+	registeredCourses.get( courseElement ).getGradingPolicy().
+		get( policyElement ).getIndividualGrades().get( gradeElement ).
+			setGradeName( name );
+	registeredCourses.get( courseElement ).getGradingPolicy().
+		get( policyElement ).getIndividualGrades().get( gradeElement ).
+			setTotalPoints( total );
+	registeredCourses.get( courseElement ).getGradingPolicy().
+		get( policyElement ).getIndividualGrades().get( gradeElement ).
+			setReceivedPoints( received );
+}
+public static void editGrade(int courseElement){
 	int policyElement = registeredCourses.get( courseElement ).selectGradeType();
 	// -1 return from selectGradeType() indicates the list is empty
 		if ( policyElement == - 1){

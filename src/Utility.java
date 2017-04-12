@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 public class Utility {
 	private static Scanner input = new Scanner(System.in);
 			
-	public static void writeToFile(File output,String givenString){
+	public static void writeToFile( File output, String givenString ){
 		PrintWriter out = null;
 		FileWriter fw = null;
 		try{
