@@ -136,7 +136,7 @@ public class Utility {
 		if (number < min || number > max){
 			System.out.println("The number must be between " + min + " and " + max + 
 					". Please try again");
-			getInt(question,min,max);
+			number = getInt(question,min,max);
 		}
 		return number;
 	}
@@ -182,6 +182,33 @@ public class Utility {
 			}finally{
 				input.nextLine();
 			}
+		}
+		return number;
+	}
+	public static float getFloat(String question , float min , float max){
+		float number = 0;
+		System.out.print( question );
+		boolean inputError = true;
+			/////////////////////////////////////////////
+			//Try catch is used here to prevent program crashes
+			//if the user inputs values other than integers in for
+			//the requested number.
+			/////////////////////////////////////////////
+		while( inputError ){
+			try{
+				number = input.nextFloat();
+				inputError = false;
+			}catch(java.util.InputMismatchException e){
+				input.nextLine();
+				System.out.println( " Your input was not a number please input a number: ");
+			}finally{
+				input.nextLine();
+			}
+		}
+		if (number < min || number > max){
+			System.out.println("The number must be between " + min + " and " + max + 
+					". Please try again");
+			number = getFloat(question,min,max);
 		}
 		return number;
 	}

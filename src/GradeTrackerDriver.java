@@ -51,18 +51,21 @@ public class GradeTrackerDriver {
 						
 						switch( displayGradePolicyMenu() ){
 							case 1:
+								//case 1 allows the user to add a grade type
 								if( courseElement == -1 ){
 									courseElement = selectCourse();
 								}
 								addGradeType( courseElement );									
 								break;
 							case 2:
+								//case 2 allows the user to edit a grade type
 								if( courseElement == -1 ){
 									courseElement = selectCourse();
 								}
 								editGradePolicy( courseElement );
 								break;
 							case 3:
+								//case 4 displays all the grade types of a course
 								if( courseElement == -1 ){
 									courseElement = selectCourse();
 								}
@@ -84,6 +87,7 @@ public class GradeTrackerDriver {
 						
 						switch( displayGradeMenu() ){
 							case 1:
+								//case 1 allows the user to add a grade
 								if( courseElement == -1 && policyElement == -1 ){
 									courseElement = selectCourse();
 									policyElement = selectGradeType( courseElement );
@@ -94,6 +98,7 @@ public class GradeTrackerDriver {
 								addGrade( courseElement , policyElement );
 								break;
 							case 2:
+								//case 2 allows the user to edit a grade
 								if( courseElement == -1 && policyElement == -1){
 									courseElement = selectCourse();
 									policyElement = selectGradeType( courseElement );
@@ -104,6 +109,8 @@ public class GradeTrackerDriver {
 								editGrade( courseElement , policyElement );
 								break;
 							case 3:
+								//case 3 will display all the grades 
+								//of a grade type
 								if( courseElement == -1 && policyElement == -1){
 									courseElement = selectCourse();
 									policyElement = selectGradeType( courseElement );
@@ -130,6 +137,7 @@ public class GradeTrackerDriver {
 						
 						switch( displayCourseGradeMenu() ){
 							case 1:
+								//case 1 will display the final grade for a course
 								if ( courseElement == -1){
 									courseElement = selectCourse();
 								}
@@ -137,13 +145,14 @@ public class GradeTrackerDriver {
 									get( courseElement ).displayCourseGrade();
 								break;
 							case 2:
+								//case 2 will display all the grades in a course
 								if( courseElement == -1 ){
 									courseElement = selectCourse();
 								}
 								displayCourseGrades( courseElement );
 								break;
 							case 3:
-								
+								//case 3 will display the final grade for all courses
 								for(int i = 0 ; i < registeredCourses.size() ; i ++ ){
 									registeredCourses.get( i ).displayCourseGrade();
 								}
@@ -158,6 +167,7 @@ public class GradeTrackerDriver {
 					/*End of Course Grade Menu*/
 					break;
 				case 5:
+					//case 5 allows the user to set a default course
 					courseElement = selectCourse();
 					if ( courseElement == -1 ){
 						System.out.println( "You must add a course before"
@@ -165,6 +175,7 @@ public class GradeTrackerDriver {
 					}
 					break;
 				case 6:
+					//case 6 allows the user to set a default grade type
 					if ( courseElement == -1 ){
 						System.out.println( "You must set a default course "
 								+ "before you can set a default grade type. " );
@@ -177,6 +188,7 @@ public class GradeTrackerDriver {
 					}
 					break;
 				case 7:
+					//case 7 clears the default course and grade type
 					courseElement = -1;
 					policyElement = -1;
 					break;
@@ -414,12 +426,22 @@ public static void addGradeType(){
 		add( placeHolderGradeType );
 }
 public static void addGradeType(int courseElement){
+	float gradeWeightTotal = totalGradeWeight( courseElement );
+	//this if statement is to prevent grade weights from adding to
+	//be higher than 100%
+	if(gradeWeightTotal >= 100 ){
+		System.out.println("Your grade weights total "
+				+ "100% you cannot add more grade types.");
+		return;
+	}
 	String typeName = Utility.getString( "What type of grade is this? " );
 	float gradeWeight = 1;
 	
 	//a gradeWeight is only collected if the course is graded by gradeWeight
 	if( registeredCourses.get( courseElement ).getIsGradedByWeight() == true ){
-		gradeWeight = Utility.getFloat( "What is the weight of the grade? " );
+		gradeWeight = Utility.getFloat( "What is the weight of "
+				+ "the grade? " , 1 , ( 100 - gradeWeight) );
+						//      minValue    maxValue(remaining % before 100 is reached)
 	}
 		
 	GradeType placeHolderGradeType = new GradeType( typeName , gradeWeight );
@@ -498,6 +520,15 @@ public static void editCourse(){
 	registeredCourses.get( courseElement ).setCourseName( courseName );
 	registeredCourses.get( courseElement ).setCourseDepartment( courseDepartment );
 	registeredCourses.get( courseElement ).setCourseNumber( courseNumber );
+}
+public static float totalGradeWeight( int courseElement ){
+	int policySize = registeredCourses.get( courseElement ).getGradingPolicy().size();
+	float total = 0;
+	for ( int i = 0 ; i < policySize ; i++ ){
+		total += registeredCourses.get( courseElement ).getGradingPolicy().get( i ).
+				getGradeWeight();
+	}
+	return total;
 }
 public static void editGradePolicy(){
 	int courseElement = selectCourse();

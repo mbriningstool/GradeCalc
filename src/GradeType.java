@@ -115,6 +115,6 @@ public class GradeType implements Serializable{
 		System.out.println();
 	}
 	public String toString(){
-		return this.getTypeName() + " " + this.getGradeWeight() *100 +"%";
+		return this.getTypeName();
 	}
 }
