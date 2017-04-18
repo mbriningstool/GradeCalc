@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 public class GradeTrackerDriver {	
 	static ArrayList<Course> registeredCourses = new ArrayList<>();
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		boolean exitMainMenu = false;
 		boolean exitSubMenu = false;
@@ -51,24 +52,21 @@ public class GradeTrackerDriver {
 						switch( displayGradePolicyMenu() ){
 							case 1:
 								if( courseElement == -1 ){
-									addGradeType();
-									break;
+									courseElement = selectCourse();
 								}
-								addGradeType(courseElement);									
+								addGradeType( courseElement );									
 								break;
 							case 2:
 								if( courseElement == -1 ){
-									editGradePolicy();
-									break;
+									courseElement = selectCourse();
 								}
-								editGradePolicy(courseElement);
+								editGradePolicy( courseElement );
 								break;
 							case 3:
 								if( courseElement == -1 ){
-									displayGradePolicy();
-									break;
+									courseElement = selectCourse();
 								}
-								displayGradePolicy(courseElement);
+								displayGradePolicy( courseElement );
 								break;
 							case 4:
 								exitSubMenu = true;
@@ -86,37 +84,34 @@ public class GradeTrackerDriver {
 						
 						switch( displayGradeMenu() ){
 							case 1:
-								if( courseElement == -1 && policyElement == -1){
-									addGrade();
-									break;
+								if( courseElement == -1 && policyElement == -1 ){
+									courseElement = selectCourse();
+									policyElement = selectGradeType( courseElement );
 								}
 								else if ( policyElement == -1){
-									addGrade( courseElement );
-									break;
+									policyElement = selectGradeType();
 								}
 								addGrade( courseElement , policyElement );
 								break;
 							case 2:
 								if( courseElement == -1 && policyElement == -1){
-									editGrade();
-									break;
+									courseElement = selectCourse();
+									policyElement = selectGradeType( courseElement );
 								}
 								else if ( policyElement == -1 ){
-									editGrade( courseElement );
-									break;
+									policyElement = selectGradeType( courseElement );
 								}
 								editGrade( courseElement , policyElement );
 								break;
 							case 3:
 								if( courseElement == -1 && policyElement == -1){
-									displayGradesOfAGradeType();
-									break;
+									courseElement = selectCourse();
+									policyElement = selectGradeType( courseElement );
 								}
 								else if ( policyElement == -1 ){
-									displayGradesOfAGradeType( courseElement );
-									break;
+									policyElement = selectGradeType( courseElement );
 								}
-								displayGradesOfAGradeType( courseElement , policyElement );
+								displayGradeTypeGrades( courseElement , policyElement );
 								break;
 							case 4:
 								exitSubMenu = true;
@@ -136,17 +131,14 @@ public class GradeTrackerDriver {
 						switch( displayCourseGradeMenu() ){
 							case 1:
 								if ( courseElement == -1){
-									registeredCourses.
-										get( selectCourse() ).displayCourseGrade();
-									break;
+									courseElement = selectCourse();
 								}
 								registeredCourses.
 									get( courseElement ).displayCourseGrade();
 								break;
 							case 2:
 								if( courseElement == -1 ){
-									displayCourseGrades();
-									break;
+									courseElement = selectCourse();
 								}
 								displayCourseGrades( courseElement );
 								break;
@@ -206,13 +198,16 @@ public class GradeTrackerDriver {
 					//case 6 allows the user to load course data that has been saved.
 					inputFile = Utility.getFileLoadLocation();
 					try(ObjectInputStream input = new 
-							ObjectInputStream( new FileInputStream( inputFile ) ) ;
-					){
+							ObjectInputStream( new FileInputStream( inputFile ) ) ;)
+					{
+						
 						registeredCourses = ( ArrayList<Course> )( input.readObject() );
-					}catch(IOException e ){
+					}catch(IOException e1 ){
 						System.out.println( "Your file did not load." );
-					}catch(ClassNotFoundException e){
+					}catch(ClassNotFoundException e2){
 						System.out.println( "The class was not found" );
+					}catch(ClassCastException e3){
+						System.out.println("An error occured with the class casting");
 					}
 
 					
@@ -228,15 +223,15 @@ public class GradeTrackerDriver {
 	}
 public static int displayMainMenu(){
 	System.out.println();
-	System.out.println( "1. Course Menu" );
-	System.out.println( "2. Grading policy menu" );
-	System.out.println( "3. Grade menu" );
-	System.out.println( "4. Display course grades menu" );
-	System.out.println( "5. Set default course" );
-	System.out.println( "6. Set default grade type" );
-	System.out.println( "7. Reset default course and grade type" );
-	System.out.println( "8. Save" );
-	System.out.println( "9. Load" );
+	System.out.println( " 1. Course Menu" );
+	System.out.println( " 2. Grading policy menu" );
+	System.out.println( " 3. Grade menu" );
+	System.out.println( " 4. Display course grades menu" );
+	System.out.println( " 5. Set default course" );
+	System.out.println( " 6. Set default grade type" );
+	System.out.println( " 7. Reset default course and grade type" );
+	System.out.println( " 8. Save" );
+	System.out.println( " 9. Load" );
 	System.out.println( "10. Exit" );
 	return Utility.getInt( "Please make a selection: ", 1 , 10 );
 }
@@ -328,7 +323,7 @@ public static void displayGradesOfAGradeType( int courseElement ){
 	registeredCourses.get( courseElement ).getGradingPolicy().
 		get( policyElement ).displayGrades();
 }
-public static void displayGradesOfAGradeType( int courseElement , int policyElement ){
+public static void displayGradeTypeGrades( int courseElement , int policyElement ){
 	registeredCourses.get( courseElement ).getGradingPolicy().
 		get( policyElement ).displayGrades();
 }
@@ -349,18 +344,16 @@ public static void displayCourseGrades( int courseElement ){
 public static int selectCourse(){
 	//this method displays a list to the user of all the added courses
 	//and allows the user to select the element
-	int courseElement = registeredCourses.size();
-	if( courseElement == 0 ){
+	int courseSize = registeredCourses.size();
+	if( courseSize == 0 ){
 		return -1;
 	}
+	int courseElement = courseSize;
 	displayCourses();
 	courseElement = Utility.
-			getInt( "Please Type the number of the course you would like to select. " );
-	
-	if ( courseElement < 1 || courseElement > registeredCourses.size() ){
-		System.out.println( "You have made an incorrect selection please try again" );
-		courseElement = selectCourse();
-	}
+			getInt( "Please Type the number of the course"
+					+ " you would like to select. ", 1 , courseSize );
+		
 	return courseElement - 1;
 }
 public static int selectGradeType(){
@@ -371,7 +364,7 @@ public static int selectGradeType(){
 		return - 1;
 	}
 	int gradeTypeElement = policySize;
-	displayGradePolicy();
+	displayGradePolicy( courseElement );
 	gradeTypeElement = Utility.getInt( "Please Type the number "
 		+ "of the course you would like to select. ", 1 , policySize );
 		
@@ -384,7 +377,7 @@ public static int selectGradeType( int courseElement ){
 		return - 1;
 	}
 	int gradeTypeElement = policySize;
-	displayGradePolicy();
+	displayGradePolicy( courseElement );
 	gradeTypeElement = Utility.getInt( "Please Type the number "
 		+ "of the course you would like to select. ", 1 , policySize );
 		
@@ -449,9 +442,9 @@ public static void addGrade(){
 	float received = Utility.
 			getFloat( "How many points did you receive for the grade? " );
 	
-	Grade tempGrade = new Grade( name ,total ,received );
+	Grade tempGrade = new Grade( name , total , received );
 	registeredCourses.get( courseElement ).getGradingPolicy().
-		get(policyElement).getIndividualGrades().add( tempGrade );
+		get( policyElement ).getIndividualGrades().add( tempGrade );
 }
 public static void addGrade(int courseElement){
 	int policyElement = selectGradeType( courseElement );
